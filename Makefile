@@ -3,6 +3,11 @@ DEBIAN_URL := https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/${DEBIAN
 QEMU_HDA := iot.qcow2
 NPROC := ${shell nproc}
 
+SSH_IP := localhost
+SSH_USER := ${shell whoami}
+SSH_HOST := ${SSH_USER}@${SSH_IP}
+SSH_PORT := 5000
+
 .PHONY: all
 all: ${DEBIAN_ISO} ${QEMU_HDA}
 	qemu-system-x86_64 -cdrom ${DEBIAN_ISO} \
@@ -12,7 +17,7 @@ all: ${DEBIAN_ISO} ${QEMU_HDA}
 		-cpu host \
 		-m 12G \
 		-smp ${NPROC} \
-		-net user,hostfwd=tcp::5000-:22,hostfwd=tcp::8080-:80 \
+		-net user,hostfwd=tcp::${SSH_PORT}-:22,hostfwd=tcp::8080-:80 \
 		-net nic &
 
 ${DEBIAN_ISO}:
@@ -20,3 +25,15 @@ ${DEBIAN_ISO}:
 
 ${QEMU_HDA}:
 	qemu-img create -f qcow2 $@ 20G
+
+.PHONY: ssh
+ssh:
+	ssh ${SSH_HOST} -p ${SSH_PORT}
+
+# should be used like this: make upload_p1 / make upload_bonus
+upload_%:
+	scp -P ${SSH_PORT} -r ${*} ${SSH_HOST}:.
+
+# should be used like this: make download_p1 / make download_bonus
+download_%:
+	scp -P ${SSH_PORT} -r ${SSH_HOST}:${*} .

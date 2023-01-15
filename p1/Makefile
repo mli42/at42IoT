@@ -1,7 +1,10 @@
 all: up
 
-up:
+up: shared
 	vagrant up
+
+shared:
+	mkdir $@
 
 ps:
 	vagrant status

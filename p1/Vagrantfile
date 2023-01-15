@@ -1,8 +1,25 @@
+HOST_SHARED_FOLDER = "./shared"
+GUEST_SHARED_FOLDER = "/vagrant_shared"
+
 SERVER_NAME = "mliS"
 SERVER_IP = "192.168.56.110"
 SERVER_SCRIPT = <<-SHELL
   export INSTALL_K3S_EXEC="--flannel-iface=eth1"
   export K3S_KUBECONFIG_MODE="644"
+  sudo apt-get update -y
+  sudo apt-get install -y curl
+  curl -sfL https://get.k3s.io | sh -s -
+  kubectl get nodes -o wide
+  cp /var/lib/rancher/k3s/server/node-token #{GUEST_SHARED_FOLDER}/k3s-token
+  SHELL
+
+AGENT_NAME = "mliSW"
+AGENT_IP = "192.168.56.111"
+AGENT_SCRIPT = <<-SHELL
+  export INSTALL_K3S_EXEC="--flannel-iface=eth1"
+  export K3S_KUBECONFIG_MODE="644"
+  export K3S_TOKEN_FILE=#{GUEST_SHARED_FOLDER}/k3s-token
+  export K3S_URL=https://#{SERVER_IP}:6443
   sudo apt-get update -y
   sudo apt-get install -y curl
   curl -sfL https://get.k3s.io | sh -s -
@@ -19,6 +36,7 @@ Vagrant.configure("2") do |config|
   config.vm.define SERVER_NAME do |server|
     server.vm.hostname = SERVER_NAME
     server.vm.network "private_network", ip: SERVER_IP
+    server.vm.synced_folder HOST_SHARED_FOLDER, GUEST_SHARED_FOLDER
     server.vm.provision "shell", inline: SERVER_SCRIPT
     server.vm.provider "virtualbox" do |vb|
       vb.name = SERVER_NAME
@@ -28,4 +46,15 @@ Vagrant.configure("2") do |config|
   end
 
   # Agent
+  config.vm.define AGENT_NAME do |agent|
+    agent.vm.hostname = AGENT_NAME
+    agent.vm.network "private_network", ip: AGENT_IP
+    agent.vm.synced_folder HOST_SHARED_FOLDER, GUEST_SHARED_FOLDER
+    agent.vm.provision "shell", inline: AGENT_SCRIPT
+    agent.vm.provider "virtualbox" do |vb|
+      vb.name = AGENT_NAME
+      vb.memory = MEMORY
+      vb.cpus = CPUS
+    end
+  end
 end

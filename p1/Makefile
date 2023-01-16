@@ -12,6 +12,12 @@ ps:
 down:
 	vagrant halt
 
+ssh-server:
+	vagrant ssh mliS
+
+ssh-agent:
+	vagrant ssh mliSW
+
 clean:
 	vagrant destroy -f
 

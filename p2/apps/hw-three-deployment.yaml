@@ -1,0 +1,37 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: hw-three-service
+spec:
+  type: ClusterIP
+  selector:
+    app: iot-hw-three
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hw-three-deployment
+  labels:
+    app: iot-hw-three
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iot-hw-three
+  template:
+    metadata:
+      labels:
+        app: iot-hw-three
+    spec:
+      containers:
+      - name: hello-kubernetes
+        image: paulbouwer/hello-kubernetes:1.10
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MESSAGE
+          value: Hello World! This is my third app

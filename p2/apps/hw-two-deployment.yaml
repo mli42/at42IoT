@@ -1,0 +1,37 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: hw-two-service
+spec:
+  type: ClusterIP
+  selector:
+    app: iot-hw-two
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hw-two-deployment
+  labels:
+    app: iot-hw-two
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: iot-hw-two
+  template:
+    metadata:
+      labels:
+        app: iot-hw-two
+    spec:
+      containers:
+      - name: hello-kubernetes
+        image: paulbouwer/hello-kubernetes:1.10
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MESSAGE
+          value: Hello World! This is my second app

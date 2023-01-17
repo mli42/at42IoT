@@ -4,6 +4,7 @@ set -eo pipefail
 
 VBOX_DEB="virtualbox-7.0_7.0.4-154605~Debian~bullseye_amd64.deb"
 SERVER_IP="192.168.56.110"
+LOCAL_BIN="${HOME}/.local/bin"
 
 # Set oneself as sudoers
 (su root -c "echo -e '$(whoami)\tALL=(ALL:ALL) ALL' >> /etc/sudoers")
@@ -29,3 +30,21 @@ ${SERVER_IP} app2.com
 ${SERVER_IP} otherapp.com
 EOF
 "
+
+# Install prerequisites for p3
+
+mkdir -p ${LOCAL_BIN}
+
+## Install k3d
+curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TAG=v5.4.6 USE_SUDO="false" K3D_INSTALL_DIR="${LOCAL_BIN}" bash
+
+## Install docker
+curl -fsSL https://get.docker.com | VERSION=v20.10.22 bash
+sudo usermod -aG docker $(whoami)
+
+## Install kubectl
+curl -LO https://dl.k8s.io/release/v1.26.0/bin/linux/amd64/kubectl
+sudo install -o $(whoami) -g $(whoami) -m 0755 kubectl ${LOCAL_BIN}/kubectl
+rm kubectl
+
+echo "Please restart your shell"

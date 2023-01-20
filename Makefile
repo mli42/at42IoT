@@ -17,7 +17,7 @@ all: ${DEBIAN_ISO} ${QEMU_HDA}
 		-cpu host \
 		-m 12G \
 		-smp ${NPROC} \
-		-net user,hostfwd=tcp::${SSH_PORT}-:22,hostfwd=tcp::8080-:80 \
+		-net user,hostfwd=tcp::${SSH_PORT}-:22,hostfwd=tcp::8080-:8090 \
 		-net nic &
 
 ${DEBIAN_ISO}:

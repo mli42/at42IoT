@@ -34,6 +34,7 @@ EOF
 # Install prerequisites for p3
 
 mkdir -p ${LOCAL_BIN}
+export PATH=${LOCAL_BIN}:${PATH}
 
 ## Install k3d
 curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TAG=v5.4.6 USE_SUDO="false" K3D_INSTALL_DIR="${LOCAL_BIN}" bash

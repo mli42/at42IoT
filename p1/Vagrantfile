@@ -9,7 +9,7 @@ SERVER_SCRIPT = <<-SHELL
   sudo apt-get update -y
   sudo apt-get install -y curl
   curl -sfL https://get.k3s.io | sh -s -
-  kubectl get nodes -o wide
+  sleep 5
   cp /var/lib/rancher/k3s/server/node-token #{GUEST_SHARED_FOLDER}/k3s-token
   SHELL
 

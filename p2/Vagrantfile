@@ -1,4 +1,4 @@
-YAML_DIR = "/vagrant/apps"
+YAML_DIR = "/vagrant/confs"
 
 SERVER_NAME = "mliS"
 SERVER_IP = "192.168.56.110"
@@ -8,11 +8,8 @@ SERVER_SCRIPT = <<-SHELL
   sudo apt-get update -y
   sudo apt-get install -y curl
   curl -sfL https://get.k3s.io | sh -s -
-  kubectl get nodes -o wide
-  kubectl apply -f #{YAML_DIR}/hw-one-deployment.yaml
-  kubectl apply -f #{YAML_DIR}/hw-two-deployment.yaml
-  kubectl apply -f #{YAML_DIR}/hw-three-deployment.yaml
-  kubectl apply -f #{YAML_DIR}/ingress.yaml
+  sleep 5
+  kubectl apply -f #{YAML_DIR}
   SHELL
 
 MEMORY = 2048

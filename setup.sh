@@ -48,4 +48,9 @@ curl -LO https://dl.k8s.io/release/v1.26.0/bin/linux/amd64/kubectl
 sudo install -o $(whoami) -g $(whoami) -m 0755 kubectl ${LOCAL_BIN}/kubectl
 rm kubectl
 
+## Install bash autocomplete for vagrant/k3d/kubectl
+vagrant autocomplete install
+k3d completion bash >> ~/.bashrc
+kubectl completion bash >> ~/.bashrc
+
 echo "Please restart your shell"

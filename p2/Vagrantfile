@@ -1,3 +1,18 @@
+#  vagrant up
+#  vagrant ssh mliS
+#
+#  k3s kubectl get nodes -o wide
+#  k3s kubectl get all
+#  k3s kubectl get ingress
+#  k3s kubectl describe ingress -A
+#
+#  curl 192.168.56.110
+#  curl -H "Host: app1.com" 192.168.56.110
+#  curl -H "Host: app2.com" 192.168.56.110
+#  curl -H "Host: otherapp.com" 192.168.56.110
+#
+#  vagrant destroy -f
+
 YAML_DIR = "/vagrant/confs"
 
 SERVER_NAME = "mliS"

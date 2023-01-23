@@ -10,6 +10,7 @@ kubectl wait deployment/metrics-server -n kube-system --for=condition=Available 
 echo "Install Argo CD"
 kubectl create namespace argocd
 kubectl apply -n argocd -f ../confs/install-argocd.yaml
+kubectl wait --for=condition=Ready --timeout=300s -n argocd --all pod
 kubectl apply -n argocd -f ../confs/argo-application.yaml
 
 echo "Setup dev namespace application"
@@ -25,3 +26,9 @@ echo "The service can be accessed using https://localhost:8080"
 echo "The credentials for ArgoCD are:"
 echo "- login: admin"
 echo "- passwd: ${ARGOCD_PASS}"
+echo
+
+echo "kubectl get ns"
+echo "kubectl get all -n argocd"
+echo "kubectl get all -n dev"
+echo "curl localhost:8888; echo"

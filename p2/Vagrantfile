@@ -13,7 +13,7 @@ SERVER_SCRIPT = <<-SHELL
   SHELL
 
 MEMORY = 2048
-CPUS = 2
+CPUS = 4
 
 Vagrant.configure("2") do |config|
   config.vm.box = "debian/bullseye64"

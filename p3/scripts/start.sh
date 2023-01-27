@@ -5,7 +5,7 @@ set -eo pipefail
 echo "Init the k3d cluster..."
 k3d cluster create iot -p "8888:80@loadbalancer"
 
-kubectl wait deployment/metrics-server -n kube-system --for=condition=Available 2>/dev/null
+kubectl wait deployment/metrics-server -n kube-system --for=condition=Available --timeout=300s 2>/dev/null
 
 echo "Install Argo CD"
 kubectl create namespace argocd

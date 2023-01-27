@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/mli42/mli-argocd-iot.git
-    targetRevision: HEAD
+    repoURL: https://github.com/mli42/at42IoT.git
+    targetRevision: playground
     path: .
   destination:
     server: https://kubernetes.default.svc

@@ -19,3 +19,10 @@ This time we're using **k3d** to manage our kubernetes clusters. \
 We want to setup **Argo CD**, a continuous delivery tool for Kubernetes, that will automatically deploys an app.
 
 The best video about ArgoCD: https://www.youtube.com/watch?v=MeU5_k9ssrs
+
+## Misc
+
+- https://kubernetes.io/docs/reference/kubernetes-api/service-resources/ingress-v1/#IngressBackend
+- https://gitlab.com/xavki/presentations-kubernetes/-/blob/master/50-k3s-ingress-controller/slides.md
+- https://docs.k3s.io/reference/env-variables
+- https://www.sokube.ch/post/k3s-k3d-k8s-a-new-perfect-match-for-dev-and-test
